@@ -1,0 +1,5 @@
+autologin=false
+username=admin
+password=admin
+language=中文
+api=insert_api_key_here
