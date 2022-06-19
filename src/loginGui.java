@@ -18,8 +18,9 @@ public class loginGui {
     private JLabel language;
     private JLabel title;
 
+
     //method change language
-    public void changeLanguage(String language) {
+    private void changeLanguage(String language) {
         switch (language) {
             case "English":
                 title.setText("Login to the system");
@@ -61,7 +62,11 @@ public class loginGui {
         frame.pack();
         frame.setVisible(true);
         frame.setSize(400, 400);
+        //make the window open in the center of the screen
+        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+
+
 
         //switch language
         comboBox1.addActionListener(new ActionListener() {
@@ -91,15 +96,11 @@ public class loginGui {
         autoLoginCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (autoLoginCheckBox.isSelected()) {
-                    configs.setAutologin(true);
-
-                } else {
-                    configs.setAutologin(false);
-                }
+                configs.setAutologin(autoLoginCheckBox.isSelected());
                 configs.write();
             }
         });
+
 
 
 
@@ -110,40 +111,52 @@ public class loginGui {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //get username and password
-                String username = textField1.getText();
-                String password = String.valueOf(passwordField1.getPassword());
-                //check if username and password are empty
-                if (username.equals("") || password.equals("")) {
-                    if (configs.language.equals("English")) {
-                        JOptionPane.showMessageDialog(null, "Username or password cannot be empty");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "用户名或密码不能为空");
-                    }
-                }else {
-                    //check if username and password are correct
-                    if (username.equals(configs.getUsername()) && password.equals(configs.getPassword())) {
-                        if (configs.language.equals("English")) {
-                            JOptionPane.showMessageDialog(null, "Login Successful");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "登录成功");
-                        }
-                        //close login window
-                        frame.dispose();
-                    } else {//username and password are not correct
-                        if (configs.language.equals("English")) {
-                            JOptionPane.showMessageDialog(null, "Username or password is incorrect");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "用户名或密码错误");
-                        }
-                    }
+                if(login()) {//if login success
+                    new dashboardGui();
+                    frame.dispose();//close login gui
                 }
             }
         });
     }
-    //run gui
+
+    public Boolean login() {
+        //get username and password
+        String username = textField1.getText();
+        String password = String.valueOf(passwordField1.getPassword());
+        //check if username and password are empty
+        if (username.equals("") || password.equals("")) {
+            if (configs.language.equals("English")) {
+                JOptionPane.showMessageDialog(null, "Username or password cannot be empty");
+            } else {
+                JOptionPane.showMessageDialog(null, "用户名或密码不能为空");
+            }
+            return false; //return false if username or password is empty
+        }else {
+            //check if username and password are correct
+            if (username.equals(configs.getUsername()) && password.equals(configs.getPassword())) {
+                if (configs.language.equals("English")) {
+                    JOptionPane.showMessageDialog(null, "Login Successful");
+                } else {
+                    JOptionPane.showMessageDialog(null, "登录成功");
+                }
+                return true; //return true if username and password are correct
+            } else {//username and password are not correct
+                if (configs.language.equals("English")) {
+                    JOptionPane.showMessageDialog(null, "Username or password is incorrect");
+                } else {
+                    JOptionPane.showMessageDialog(null, "用户名或密码错误");
+                }
+                return false; //return false if username and password are not correct
+            }
+        }
+    }
+
+    //run application
     public static void main(String[] args) {
         new loginGui();
     }
+
+
+
 
 }

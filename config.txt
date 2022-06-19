@@ -1,5 +1,5 @@
-autologin=false
+autologin=true
 username=admin
 password=admin
-language=中文
+language=English
 api=insert_api_key_here

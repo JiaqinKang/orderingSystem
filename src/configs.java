@@ -138,7 +138,6 @@ public class configs {
             configs.username = newUsername;
             write();
         }else {
-            System.out.println("username already set to " + configs.username);
             //message pop up to the user that username is already set to the same value
             JOptionPane.showMessageDialog(null, "Username is the same"+ ", no changes made");
 
@@ -151,7 +150,6 @@ public class configs {
             configs.password = newPassword;
             write();
         }else {
-            System.out.println("password already set to " + configs.password);
             //message pop up to user that password is already set to the same value
             JOptionPane.showMessageDialog(null, "Password is the same"+ ", no changes made");
         }
@@ -162,9 +160,8 @@ public class configs {
             configs.language = newLanguage;
             write();
         }else {
-            System.out.println("language already set to " + configs.language);
             //message pop up to user that language is already set
-            JOptionPane.showMessageDialog(null, "language already set to " + configs.language);
+            JOptionPane.showMessageDialog(null, "Language is the same"+ ", no changes made");
         }
     }
 

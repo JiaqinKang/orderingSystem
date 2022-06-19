@@ -17,7 +17,6 @@ public class encryption {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        //System.out.println("encrypted password: " + encryptedPassword);
         return encryptedPassword;
     }
 }
