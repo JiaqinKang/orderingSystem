@@ -1,5 +1,5 @@
 autologin=true
 username=admin
 password=admin
-language=English
-api=insert_api_key_here
+language=中文
+api=null
