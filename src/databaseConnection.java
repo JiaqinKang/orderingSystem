@@ -1,4 +1,8 @@
 import java.sql.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class databaseConnection {
 
@@ -13,6 +17,9 @@ public class databaseConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            try (Statement statement = connection.createStatement()) {
+                statement.execute("USE orderingSystem");
+            }
         } catch (ClassNotFoundException | SQLException e) {
             // Handle the exception appropriately (e.g., log it)
             e.printStackTrace();
@@ -21,24 +28,26 @@ public class databaseConnection {
         return connection;
     }
 
-    private static Boolean selectTable(Connection connection,String tableName) throws SQLException {
-        String selectQuery = "SELECT * FROM " + tableName;
+    public static List<Map<String, Object>> selectTable(Connection connection, String tableName) throws SQLException {
+        String query = "SELECT * FROM " + tableName + ";";
+        List<Map<String, Object>> results = new ArrayList<>();
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(selectQuery)) {
+             ResultSet resultSet = statement.executeQuery(query)) {
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
 
-            // Process the result set
             while (resultSet.next()) {
-                int foodID = resultSet.getInt("foodID");
-                String foodName = resultSet.getString("foodName");
-                double foodPrice = resultSet.getDouble("foodPrice");
-
-                System.out.println("Food ID: " + foodID);
-                System.out.println("Food Name: " + foodName);
-                System.out.println("Food Price: $" + foodPrice);
-                System.out.println("--------------");
+                Map<String, Object> row = new HashMap<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    row.put(metaData.getColumnName(i), resultSet.getObject(i));
+                }
+                results.add(row);
             }
-            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("SQL error: " + e.getMessage());
         }
+        return results;
     }
 
     private static Boolean updateLoginPassword(Connection connection, String username,String newPlainPassword) throws SQLException{
@@ -47,7 +56,7 @@ public class databaseConnection {
 //            encrypt the password
             statement.setString(1,configs.encrypt(newPlainPassword));
             statement.setString(2,username);
-            int rowAffected = statement.executeUpdate();
+            int rowAffected = statement.executeUpdate(); //execute the update
             if (rowAffected >0) {
                 System.out.println("Update successful!");
                 return true;
@@ -55,6 +64,9 @@ public class databaseConnection {
                 System.out.println("No matching user found for update.");
                 throw new RuntimeException("No matching user found for update.");
             }
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException("SQL error: " + e.getMessage());
         }
     }
 
@@ -66,6 +78,9 @@ public class databaseConnection {
             if (resultSet.next()){ //if result set is not empty
                 return resultSet.getString("loginPassword"); //return password hash
             }
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException("SQL error: " + e.getMessage());
         }
         return null; //return null if no matching user found
     }
@@ -79,9 +94,20 @@ public class databaseConnection {
             if (resultSet.next()){ //if result set is not empty
                 return resultSet.getString("loginUsername"); //return login username
             }
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException("SQL error: " + e.getMessage());
         }
         return null; //return null if no matching user found
     }
+
+
+
+
+
+
+
+
 
 
 
