@@ -27,10 +27,7 @@ INSERT INTO orderHistory (customerID, orderDate, orderTime, totalAmount, itemsOr
 
 -- Insert a login detail with an encrypted password
 INSERT INTO loginDetails (loginUsername, loginPassword)
-VALUES ('user1', PBKDF2_HMAC_SHA256('qq529879477', 'your_salt_here', 10000, 32)); -- Use a unique salt per password
+VALUES ('admin', '$2a$12$RpC9dctRzsg8FoLcckYivuiGtFV.uWntB3FdKp4GsqX8Mbgm3wSWC');
 
 -- Retrieve and decrypt the password
-SELECT
-    loginUsername,
-    AES_DECRYPT(loginPassword, UNHEX(SHA2(CONCAT('salt', 'password1'), 256))) AS decryptedPassword
-FROM loginDetails;loginUsername
+SELECT * FROM loginDetails;

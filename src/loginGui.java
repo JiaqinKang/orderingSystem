@@ -179,6 +179,7 @@ public class loginGui {
                 System.out.println("No matching user found");
                 return false;
             }
+
         } catch (SQLException e) { //catch SQL exception like username not found which causes an error
             System.out.println("SQL error");
             JOptionPane.showMessageDialog(null, "SQL error");

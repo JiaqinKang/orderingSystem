@@ -21,7 +21,6 @@ public class main {
 //        }
 
 
-//        test loginChecking gui
         new loginGui();
 
     }
