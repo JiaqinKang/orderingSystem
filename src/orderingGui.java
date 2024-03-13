@@ -122,11 +122,11 @@ public class orderingGui {
         orderDetailsScrollWrapper.setLayout(new GridLayout(0,1));
 
         ////create temp buttons to fill the order details wrapper for testing
-        for (int i = 0; i < 20; i++) {
-            JButton tempButton = new JButton("Button " + i);
-            tempButton.setFont(new Font("正楷", Font.PLAIN, 50));
-            orderDetailsScrollWrapper.add(tempButton);
-        }
+//        for (int i = 0; i < 20; i++) {
+//            JButton tempButton = new JButton("Button " + i);
+//            tempButton.setFont(new Font("正楷", Font.PLAIN, 50));
+//            orderDetailsScrollWrapper.add(tempButton);
+//        }
 
 
 //        create a scroll panel for the order details
@@ -187,7 +187,7 @@ public class orderingGui {
 //      create a wrapper for payment button on the east of the payment details wrapper
         JPanel paymentButtonWrapper = new JPanel();
         paymentButtonWrapper.setLayout( new BorderLayout());
-        JButton paymentButton = new JButton("Payment");
+        JButton paymentButton = new JButton("Pay");
         paymentButton.setFont(new Font("正楷", Font.PLAIN, 50));
         paymentButtonWrapper.add(paymentButton, BorderLayout.CENTER);
         newOrderAndPaymentWrapper.add(paymentButtonWrapper, BorderLayout.LINE_END);
